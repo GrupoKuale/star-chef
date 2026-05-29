@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Star Chef 2026 — Formato de Evaluación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  /* =============================================
+     CONFIGURACIÓN GLOBAL — REEMPLAZA ESTOS IDs
+     =============================================
+     1. Ve a docs.google.com/forms y crea tu Form
+     2. Activa "Recopilar correos electrónicos" si quieres
+     3. Haz clic en los 3 puntos > "Obtener enlace para rellenar"
+     4. Del URL extrae el FORM_ID (la cadena larga entre /d/ y /viewform)
+     5. Para cada pregunta: haz clic en los 3 puntos de la pregunta > "Obtener enlace de relleno previo"
+     6. Llena el formulario de prueba, copia el URL y extrae los entry.XXXXXXX de cada campo
+
+     Ejemplo de URL: https://docs.google.com/forms/d/e/1FAIpQLSe.../viewform?usp=pp_url&entry.123456789=TEST
+                                                                                         ^^^^^^^^^^^ este es el entry ID
+
+     REEMPLAZA LOS VALORES ABAJO:
+  */
+
+  :root {
+    --cj-red: #e8380d;
+    --cj-gold: #f5c518;
+    --cj-black: #ffffff;
+    --cj-dark: #f5f5f5;
+    --cj-surface: #ebebeb;
+    --cj-border: #d0d0d0;
+    --cj-text: #111111;
+    --cj-muted: #666666;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--cj-black);
+    color: var(--cj-text);
+    min-height: 100vh;
+    padding-bottom: 4rem;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--cj-black);
+    border-bottom: 3px solid var(--cj-red);
+    padding: 1.5rem 1.5rem 1rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 10px,
+      rgba(232,56,13,0.06) 10px,
+      rgba(232,56,13,0.06) 20px
+    );
+  }
+  .header-inner { position: relative; z-index: 1; }
+  .brand-badge {
+    display: inline-block;
+    background: var(--cj-red);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 12px;
+    border-radius: 2px;
+    margin-bottom: 0.5rem;
+  }
+  .header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.8rem, 10vw, 5rem);
+    color: var(--cj-gold);
+    letter-spacing: 4px;
+    line-height: 0.9;
+    text-shadow: 3px 3px 0 rgba(232,56,13,0.4);
+  }
+  .header h1 span { color: var(--cj-red); }
+  .header-subtitle {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    color: var(--cj-muted);
+    text-transform: uppercase;
+    margin-top: 0.4rem;
+  }
+  .star-deco {
+    display: inline-block;
+    color: var(--cj-gold);
+    font-size: 1.1rem;
+    margin: 0 8px;
+    vertical-align: middle;
+  }
+
+  /* FORM CONTAINER */
+  .form-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--cj-dark);
+    border: 1px solid var(--cj-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .card.highlight {
+    border-color: var(--cj-gold);
+    border-left: 4px solid var(--cj-gold);
+  }
+
+  /* LABELS & INPUTS */
+  .field-group { margin-bottom: 1.25rem; }
+  .field-group:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--cj-muted);
+    margin-bottom: 6px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  select {
+    width: 100%;
+    background: #fafafa;
+    border: 1.5px solid var(--cj-border);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    color: var(--cj-text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  select:focus {
+    outline: none;
+    border-color: var(--cj-gold);
+  }
+  select option { background: #ffffff; }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cj-red);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--cj-border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 14px;
+    background: var(--cj-red);
+    border-radius: 2px;
+  }
+
+  /* INSTRUCCIONES */
+  .instrucciones {
+    background: rgba(245,197,24,0.14);
+    border: 1px solid rgba(245,197,24,0.35);
+    border-radius: 6px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.25rem;
+  }
+  .instrucciones p {
+    font-size: 0.88rem;
+    color: #444;
+    line-height: 1.6;
+  }
+  .instrucciones strong { color: var(--cj-gold); }
+  .escala {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .escala-item {
+    font-size: 0.8rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .escala-item.bad { background: rgba(232,56,13,0.15); color: #c43009; }
+  .escala-item.mid { background: rgba(245,197,24,0.25); color: #a07800; }
+  .escala-item.good { background: rgba(46,200,90,0.15); color: #1a8a3c; }
+
+  /* CRITERIO ROW */
+  .criterio-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 12px;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--cj-border);
+  }
+  .criterio-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .criterio-row:first-child { padding-top: 0; }
+
+  .criterio-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--cj-text);
+    margin-bottom: 4px;
+  }
+  .criterio-desc {
+    font-size: 0.8rem;
+    color: var(--cj-muted);
+    line-height: 1.4;
+  }
+  .criterio-right { min-width: 120px; text-align: right; }
+
+  /* STAR RATING */
+  .rating-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+  .star-btns {
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .star-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    border: 1.5px solid var(--cj-border);
+    background: transparent;
+    color: var(--cj-muted);
+    font-size: 0.78rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .star-btn:hover { border-color: var(--cj-gold); color: #a07800; background: rgba(245,197,24,0.15); }
+  .star-btn.selected { background: var(--cj-gold); border-color: var(--cj-gold); color: #000; }
+  .rating-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+    color: var(--cj-gold);
+    min-width: 44px;
+    text-align: center;
+  }
+  .rating-val.empty { color: var(--cj-border); }
+
+
+  /* TOTAL CARD */
+  .total-card {
+    background: var(--cj-dark);
+    border: 2px solid var(--cj-gold);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+  .total-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 3px;
+    color: var(--cj-gold);
+  }
+  .total-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: var(--cj-text);
+    letter-spacing: 2px;
+  }
+  .total-score span { font-size: 1.4rem; color: var(--cj-muted); }
+
+  /* RADIO RECOMENDAR */
+  .radio-group {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+  .radio-opt {
+    flex: 1;
+    min-width: 100px;
+  }
+  .radio-opt input[type="radio"] { display: none; }
+  .radio-opt label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #fafafa;
+    border: 2px solid var(--cj-border);
+    border-radius: 6px;
+    padding: 0.75rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: none;
+    color: var(--cj-muted);
+    transition: all 0.15s;
+  }
+  .radio-opt input[type="radio"]:checked + label {
+    border-color: var(--cj-gold);
+    color: #a07800;
+    background: rgba(245,197,24,0.12);
+  }
+  .radio-opt.si input:checked + label { border-color: #2a9a50; color: #1a8a3c; background: rgba(46,200,90,0.1); }
+  .radio-opt.no input:checked + label { border-color: var(--cj-red); color: var(--cj-red); background: rgba(232,56,13,0.08); }
+
+  /* COMENTARIOS GENERALES */
+  textarea.general {
+    width: 100%;
+    min-height: 100px;
+    background: #fafafa;
+    border: 1.5px solid var(--cj-border);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    color: var(--cj-text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    resize: vertical;
+    transition: border-color 0.2s;
+  }
+  textarea.general:focus { outline: none; border-color: var(--cj-gold); }
+
+  /* SUBMIT BUTTON */
+  .btn-submit {
+    width: 100%;
+    background: var(--cj-red);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 1rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-submit:hover { background: #c72e08; }
+  .btn-submit:active { transform: scale(0.99); }
+  .btn-submit:disabled { background: #cccccc; color: #999; cursor: not-allowed; }
+
+  /* SUCCESS STATE */
+  .success-screen {
+    display: none;
+    text-align: center;
+    padding: 3rem 1rem;
+  }
+  .success-screen.visible { display: block; }
+  .success-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+  }
+  .success-screen h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--cj-gold);
+    letter-spacing: 3px;
+  }
+  .success-screen p { color: var(--cj-muted); margin-top: 0.5rem; }
+
+  /* ERROR */
+  .error-msg {
+    color: var(--cj-red);
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: none;
+  }
+  .error-msg.visible { display: block; }
+  input.error, select.error { border-color: var(--cj-red) !important; }
+
+  /* SUCURSALES */
+  .sucursales-info {
+    font-size: 0.75rem;
+    color: var(--cj-muted);
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  @media (max-width: 480px) {
+    .star-btn { width: 26px; height: 26px; font-size: 0.72rem; }
+    .criterio-row { grid-template-columns: 1fr; }
+    .criterio-right { text-align: left; }
+    .star-btns { justify-content: flex-start; }
+    .total-card { flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     CONFIGURACIÓN — EDITAR ANTES DE PUBLICAR
+     ============================================ -->
+<script>
+  // ⚠️ REEMPLAZA ESTOS VALORES CON LOS DE TU GOOGLE FORM
+  const GOOGLE_FORM_CONFIG = {
+    // El ID del formulario (entre /d/e/ y /viewform en el URL)
+    formId: "1FAIpQLSddv7zRrm3tbm7fthUkY2kpjVvX0KEVMrauSSBlcglSfGg9Yg",
+
+    // Los entry IDs de cada campo (obtenlos haciendo "Obtener enlace de relleno previo")
+    fields: {
+      juez:          "entry.25928160",   // Nombre del juez
+      sucursal:      "entry.831630054",   // Sucursal participante
+      hamburguesa:   "entry.617364256",   // Nombre de la hamburguesa
+      sabor:         "entry.1242654553",   // Calificación Sabor
+      presentacion:  "entry.464341335",   // Presentación visual
+      tamano:        "entry.882869160",   // Tamaño/Porción
+      facilidad:     "entry.355351908",   // Facilidad de elaboración
+      costo:         "entry.704131638",   // Costo
+      empaque:       "entry.1712293400",   // Empaque
+      creatividad:   "entry.972185434",   // Creatividad/Innovación
+      recomienda:    "entry.1231647880",   // ¿Recomienda?
+      comentarios:   "entry.242632765",   // Comentarios generales
+    }
+  };
+
+  // Sucursales participantes — edita esta lista
+  const SUCURSALES = [
+    "Carl's Jr. Centro",
+    "Carl's Jr. Altama",
+    "Carl's Jr. Norte",
+    "Carl's Jr. Hidalgo",
+    "Carl's Jr. Universidad",
+    "Carl's Jr. Cd. Victoria",
+  ];
+</script>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="brand-badge">Carl's Jr. — Grupo Kuale</div>
+    <h1><span>STAR</span> ☆ <span>CHEF</span> <br>2026</h1>
+    <div class="header-subtitle">
+      <span class="star-deco">★</span>
+      Formato de Evaluación del Jurado
+      <span class="star-deco">★</span>
+    </div>
+  </div>
+</header>
+
+<div class="form-wrap">
+
+  <!-- FORMULARIO -->
+  <form id="evaluacion-form">
+
+    <!-- DATOS DEL JUEZ -->
+    <div class="card">
+      <div class="section-title">Datos del evaluador</div>
+
+      <div class="field-group">
+        <label for="juez">Nombre del juez *</label>
+        <input type="text" id="juez" placeholder="Ej. María González" autocomplete="name" required>
+        <div class="error-msg" id="err-juez">Este campo es requerido</div>
+      </div>
+
+      <div class="field-group">
+        <label for="sucursal">Sucursal participante *</label>
+        <select id="sucursal" required>
+          <option value="">— Selecciona la sucursal —</option>
+        </select>
+        <div class="error-msg" id="err-sucursal">Selecciona una sucursal</div>
+      </div>
+
+      <div class="field-group">
+        <label for="hamburguesa">Nombre de la hamburguesa *</label>
+        <input type="text" id="hamburguesa" placeholder="Nombre de la creación" required>
+        <div class="error-msg" id="err-hamburguesa">Este campo es requerido</div>
+      </div>
+    </div>
+
+    <!-- INSTRUCCIONES -->
+    <div class="instrucciones">
+      <p><strong>Instrucciones:</strong> Califica cada criterio del 1 al 10. Puedes agregar un comentario opcional por criterio.</p>
+      <div class="escala">
+        <span class="escala-item bad">1–3 · Deficiente</span>
+        <span class="escala-item mid">4–7 · Bueno</span>
+        <span class="escala-item good">8–10 · Excelente</span>
+      </div>
+    </div>
+
+    <!-- CRITERIOS -->
+    <div class="card">
+      <div class="section-title">Criterios de evaluación</div>
+
+      <!-- Cada criterio generado por JS -->
+      <div id="criterios-container"></div>
+    </div>
+
+    <!-- TOTAL -->
+    <div class="total-card">
+      <div class="total-label">Total</div>
+      <div class="total-score" id="total-display">—<span> / 70 pts</span></div>
+    </div>
+
+    <!-- RECOMENDAR -->
+    <div class="card">
+      <div class="section-title">Recomendación</div>
+      <label style="color: var(--cj-text); font-size:0.9rem; text-transform:none; letter-spacing:0; font-weight:600; margin-bottom:12px;">
+        ¿Recomendarías esta hamburguesa para venta?
+      </label>
+      <div class="radio-group">
+        <div class="radio-opt si">
+          <input type="radio" name="recomienda" id="rec-si" value="Sí">
+          <label for="rec-si">✓ Sí</label>
+        </div>
+        <div class="radio-opt no">
+          <input type="radio" name="recomienda" id="rec-no" value="No">
+          <label for="rec-no">✗ No</label>
+        </div>
+        <div class="radio-opt">
+          <input type="radio" name="recomienda" id="rec-ajustes" value="Con ajustes">
+          <label for="rec-ajustes">⚙ Con ajustes</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMENTARIOS GENERALES -->
+    <div class="card">
+      <div class="section-title">Comentarios generales del juez</div>
+      <textarea class="general" id="comentarios-generales"
+        placeholder="Observaciones adicionales, sugerencias de mejora, impresiones generales..."
+        rows="4"></textarea>
+    </div>
+
+    <!-- SUBMIT -->
+    <button type="submit" class="btn-submit" id="btn-enviar">
+      ★ Enviar evaluación
+    </button>
+
+  </form>
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-icon">⭐</div>
+    <h2>¡Evaluación enviada!</h2>
+    <p>Tu calificación ha sido registrada correctamente.</p>
+    <br>
+    <button onclick="resetForm()" style="background:var(--cj-red);color:white;border:none;padding:0.75rem 2rem;border-radius:6px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;letter-spacing:1px;">
+      Evaluar otra hamburguesa
+    </button>
+  </div>
+
+</div>
+
+<script>
+  // =============================================
+  // CRITERIOS DE EVALUACIÓN
+  // =============================================
+  const CRITERIOS = [
+    { id: "sabor",        field: "sabor",        name: "Sabor",                        desc: "Balance de sabores, sazón, gusto general" },
+    { id: "presentacion", field: "presentacion", name: "Presentación visual",           desc: "Aspecto, colores, apetitosidad visual" },
+    { id: "tamano",       field: "tamano",        name: "Tamaño / Porción",             desc: "Proporciones adecuadas, relación tamaño-precio" },
+    { id: "facilidad",    field: "facilidad",     name: "Facilidad de elaboración",     desc: "Rapidez y simplicidad en la preparación" },
+    { id: "costo",        field: "costo",         name: "Costo",                        desc: "Relación costo-beneficio, viabilidad económica" },
+    { id: "empaque",      field: "empaque",       name: "Empaque / Presentación comercial", desc: "Idoneidad del empaque, experiencia de entrega" },
+    { id: "creatividad",  field: "creatividad",   name: "Creatividad / Innovación",     desc: "Originalidad, diferenciación, propuesta única" },
+  ];
+
+  // Calificaciones almacenadas
+  const calificaciones = {};
+
+  // Poblar sucursales
+  const selectSuc = document.getElementById("sucursal");
+  SUCURSALES.forEach(s => {
+    const opt = document.createElement("option");
+    opt.value = s;
+    opt.textContent = s;
+    selectSuc.appendChild(opt);
+  });
+
+  // Generar criterios
+  const container = document.getElementById("criterios-container");
+  CRITERIOS.forEach(c => {
+    const row = document.createElement("div");
+    row.className = "criterio-row";
+    row.innerHTML = `
+      <div class="criterio-left">
+        <div class="criterio-name">${c.name}</div>
+        <div class="criterio-desc">${c.desc}</div>
+      </div>
+      <div class="criterio-right">
+        <div class="rating-wrap">
+          <div class="star-btns" id="btns-${c.id}"></div>
+          <div class="rating-val empty" id="val-${c.id}">—</div>
+        </div>
+      </div>
+    `;
+    container.appendChild(row);
+
+    // Generar botones 1–10
+    const btnsContainer = row.querySelector(`#btns-${c.id}`);
+    for (let n = 1; n <= 10; n++) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "star-btn";
+      btn.textContent = n;
+      btn.dataset.val = n;
+      btn.dataset.criterio = c.id;
+      btn.addEventListener("click", () => setRating(c.id, n));
+      btnsContainer.appendChild(btn);
+    }
+  });
+
+  function setRating(criterioId, val) {
+    calificaciones[criterioId] = val;
+    const btns = document.querySelectorAll(`#btns-${criterioId} .star-btn`);
+    btns.forEach(b => {
+      const v = parseInt(b.dataset.val);
+      b.classList.toggle("selected", v <= val);
+    });
+    const valEl = document.getElementById(`val-${criterioId}`);
+    valEl.textContent = val;
+    valEl.classList.remove("empty");
+    // Color dinámico
+    if (val <= 3) valEl.style.color = "#c43009";
+    else if (val <= 7) valEl.style.color = "var(--cj-gold)";
+    else valEl.style.color = "#1a8a3c";
+    updateTotal();
+  }
+
+  function updateTotal() {
+    const vals = Object.values(calificaciones);
+    const totalEl = document.getElementById("total-display");
+    if (vals.length === 0) {
+      totalEl.innerHTML = `—<span> / 70 pts</span>`;
+      return;
+    }
+    const sum = vals.reduce((a, b) => a + b, 0);
+    let color = "#c43009";
+    if (sum >= 50) color = "#1a8a3c";
+    else if (sum >= 30) color = "var(--cj-gold)";
+    totalEl.innerHTML = `<span style="color:${color};font-size:3rem;">${sum}</span><span> / 70 pts</span>`;
+  }
+
+  // =============================================
+  // ENVÍO A GOOGLE FORMS
+  // =============================================
+  document.getElementById("evaluacion-form").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    // Validar campos requeridos
+    let valid = true;
+    const juez = document.getElementById("juez").value.trim();
+    const sucursal = document.getElementById("sucursal").value;
+    const hamburguesa = document.getElementById("hamburguesa").value.trim();
+
+    if (!juez) { showError("juez"); valid = false; }
+    else hideError("juez");
+    if (!sucursal) { showError("sucursal"); valid = false; }
+    else hideError("sucursal");
+    if (!hamburguesa) { showError("hamburguesa"); valid = false; }
+    else hideError("hamburguesa");
+
+    // Validar que todos los criterios tienen calificación
+    const camposSinCalif = CRITERIOS.filter(c => !calificaciones[c.id]);
+    if (camposSinCalif.length > 0) {
+      alert(`Por favor califica todos los criterios.\n\nFaltan: ${camposSinCalif.map(c => c.name).join(", ")}`);
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    const btn = document.getElementById("btn-enviar");
+    btn.disabled = true;
+    btn.textContent = "Enviando...";
+
+    // Construir FormData para Google Forms
+    const fd = new FormData();
+    const f = GOOGLE_FORM_CONFIG.fields;
+
+    fd.append(f.juez, juez);
+    fd.append(f.sucursal, sucursal);
+    fd.append(f.hamburguesa, hamburguesa);
+    fd.append(f.sabor, calificaciones["sabor"] || "");
+    fd.append(f.presentacion, calificaciones["presentacion"] || "");
+    fd.append(f.tamano, calificaciones["tamano"] || "");
+    fd.append(f.facilidad, calificaciones["facilidad"] || "");
+    fd.append(f.costo, calificaciones["costo"] || "");
+    fd.append(f.empaque, calificaciones["empaque"] || "");
+    fd.append(f.creatividad, calificaciones["creatividad"] || "");
+
+    const recomienda = document.querySelector('input[name="recomienda"]:checked');
+    fd.append(f.recomienda, recomienda ? recomienda.value : "No indicado");
+    fd.append(f.comentarios, document.getElementById("comentarios-generales").value.trim());
+
+    // Enviar a Google Forms (no-cors)
+    const url = `https://docs.google.com/forms/d/e/${GOOGLE_FORM_CONFIG.formId}/formResponse`;
+
+    try {
+      await fetch(url, { method: "POST", body: fd, mode: "no-cors" });
+      // no-cors siempre "ok" aunque haya error — mostrar éxito
+      showSuccess();
+    } catch (err) {
+      // Modo demo: si no hay formId configurado, mostrar success igual
+      if (GOOGLE_FORM_CONFIG.formId === "TU_FORM_ID_AQUI") {
+        alert("⚠️ MODO DEMO: Configura el GOOGLE_FORM_CONFIG con tu Form ID real para guardar respuestas.");
+        showSuccess();
+      } else {
+        btn.disabled = false;
+        btn.textContent = "★ Enviar evaluación";
+        alert("Error al enviar. Verifica tu conexión e intenta de nuevo.");
+      }
+    }
+  });
+
+  function showError(id) {
+    document.getElementById(id).classList.add("error");
+    document.getElementById("err-" + id).classList.add("visible");
+  }
+  function hideError(id) {
+    document.getElementById(id).classList.remove("error");
+    document.getElementById("err-" + id).classList.remove("visible");
+  }
+
+  function showSuccess() {
+    document.getElementById("evaluacion-form").style.display = "none";
+    document.getElementById("success-screen").classList.add("visible");
+    window.scrollTo(0, 0);
+  }
+
+  function resetForm() {
+    document.getElementById("evaluacion-form").reset();
+    document.getElementById("evaluacion-form").style.display = "block";
+    document.getElementById("success-screen").classList.remove("visible");
+    Object.keys(calificaciones).forEach(k => delete calificaciones[k]);
+    CRITERIOS.forEach(c => {
+      document.querySelectorAll(`#btns-${c.id} .star-btn`).forEach(b => b.classList.remove("selected"));
+      const valEl = document.getElementById(`val-${c.id}`);
+      valEl.textContent = "—";
+      valEl.classList.add("empty");
+      valEl.style.color = "";
+    });
+    document.getElementById("total-display").innerHTML = `—<span> / 70 pts</span>`;
+    document.getElementById("btn-enviar").disabled = false;
+    document.getElementById("btn-enviar").textContent = "★ Enviar evaluación";
+  }
+</script>
+
+</body>
+</html>
