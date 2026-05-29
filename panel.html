@@ -11,7 +11,7 @@
   :root {
     --cj-red: #e8380d;
     --cj-gold: #f5c518;
-    --cj-gold-text: #a07800;
+    --cj-gold-text: #ffcd34;
     --cj-black: #ffffff;
     --cj-dark: #f5f5f5;
     --cj-surface: #ebebeb;
@@ -139,7 +139,7 @@
     padding: 4px 14px;
     font-size: 0.75rem;
     font-weight: 700;
-    color: #a07800;
+    color: #ffcd34;
     letter-spacing: 1px;
     text-transform: uppercase;
   }
@@ -262,7 +262,7 @@
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1rem;
   }
-  .pos-badge.p1 { background: rgba(245,197,24,0.2); color: #a07800; }
+  .pos-badge.p1 { background: rgba(245,197,24,0.2); color: #ffcd34; }
   .pos-badge.p2 { background: rgba(176,184,193,0.2); color: #666c73; }
   .pos-badge.p3 { background: rgba(205,127,50,0.2); color: #7a4a10; }
   .pos-badge.pn { background: transparent; color: var(--cj-muted); }
@@ -332,7 +332,7 @@
     padding: 0.9rem 1rem;
     margin-bottom: 10px;
   }
-  .comentario-juez { font-size: 0.78rem; font-weight: 700; color: #a07800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .comentario-juez { font-size: 0.78rem; font-weight: 700; color: #ffcd34; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
   .comentario-text { font-size: 0.9rem; color: var(--cj-text); line-height: 1.5; }
 
   /* EXPORT */
@@ -351,8 +351,8 @@
     cursor: pointer;
     transition: all 0.15s;
   }
-  .btn-export:hover { border-color: var(--cj-gold); color: #a07800; }
-  .btn-export.primary { border-color: var(--cj-gold); color: #a07800; }
+  .btn-export:hover { border-color: var(--cj-gold); color: #ffcd34; }
+  .btn-export.primary { border-color: var(--cj-gold); color: #ffcd34; }
 
   /* REFRESH */
   .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 10px; }
@@ -371,7 +371,7 @@
     cursor: pointer;
     transition: all 0.15s;
   }
-  .btn-sm:hover { border-color: var(--cj-gold); color: #a07800; }
+  .btn-sm:hover { border-color: var(--cj-gold); color: #ffcd34; }
 
   /* SECCIÓN TITLE */
   .section-title {
@@ -727,7 +727,7 @@
     const el = document.getElementById("podium-content");
     if (top3.length === 0) { el.textContent = "Sin datos aún."; return; }
     const medals = ["🥇", "🥈", "🥉"];
-    const colors = ["#a07800", "#6e7880", "#8a5010"];
+    const colors = ["#ffcd34", "#6e7880", "#8a5010"];
     el.innerHTML = top3.map((item, i) => `
       <div style="display:flex;align-items:center;gap:1rem;padding:0.9rem 0;border-bottom:1px solid var(--cj-border);">
         <div style="font-size:2rem;line-height:1;">${medals[i]}</div>
@@ -804,7 +804,7 @@
       const total = scores.reduce((a,i)=>a+(+r[i]||0),0);
       const ts = parseTimestamp(r[COL.timestamp]);
       const rec = (r[COL.recomienda]||"");
-      const recCls = rec.toLowerCase().includes("sí")||rec.toLowerCase().includes("si")?"color:#1a8a3c":rec.toLowerCase().includes("no")?"color:var(--cj-red)":"color:#a07800";
+      const recCls = rec.toLowerCase().includes("sí")||rec.toLowerCase().includes("si")?"color:#1a8a3c":rec.toLowerCase().includes("no")?"color:var(--cj-red)":"color:#ffcd34";
       const com = (r[COL.comentarios]||"").trim();
       return `
         <tr>
@@ -822,13 +822,13 @@
   function renderActa() {
     const el = document.getElementById("acta-preview");
     const now = new Date().toLocaleDateString("es-MX", {year:"numeric",month:"long",day:"numeric"});
-    let html = `<p style="margin-bottom:1rem;"><strong style="color:#a07800;">CONCURSO STAR CHEF 2026 — CARL'S JR. GRUPO KUALE</strong><br>
+    let html = `<p style="margin-bottom:1rem;"><strong style="color:#ffcd34;">CONCURSO STAR CHEF 2026 — CARL'S JR. GRUPO KUALE</strong><br>
     <span style="color:var(--cj-muted);">Fecha: ${now} · Total de evaluaciones: ${allData.length}</span></p>`;
     html += `<p style="margin-bottom:1rem;font-weight:700;color:var(--cj-text);">RESULTADOS FINALES:</p>`;
     processedItems.forEach((item, i) => {
       const medals = ["🥇 PRIMER LUGAR","🥈 SEGUNDO LUGAR","🥉 TERCER LUGAR"];
       const pos = medals[i] || `${i+1}° Lugar`;
-      html += `<p style="margin-bottom:8px;">${pos} — <strong>${escHtml(item.hamburguesa)}</strong> · ${escHtml(item.sucursal)} · <strong style="color:#a07800">${item.avgTotal}/70 pts</strong></p>`;
+      html += `<p style="margin-bottom:8px;">${pos} — <strong>${escHtml(item.hamburguesa)}</strong> · ${escHtml(item.sucursal)} · <strong style="color:#ffcd34">${item.avgTotal}/70 pts</strong></p>`;
     });
     el.innerHTML = html;
   }
@@ -842,7 +842,7 @@
     document.getElementById("modal-subtitle").textContent = `${item.sucursal} · ${item.numEvals} evaluación${item.numEvals!==1?"es":""}`;
     const critLabels = { sabor:"Sabor", presentacion:"Visual", tamano:"Porción", facilidad:"Elaboración", costo:"Costo", empaque:"Empaque", creatividad:"Creatividad" };
     let html = `<div style="text-align:center;margin-bottom:1.25rem;">
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:3rem;color:#a07800;">${item.avgTotal}</span>
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:3rem;color:#ffcd34;">${item.avgTotal}</span>
       <span style="color:var(--cj-muted);font-size:1.2rem;"> / 70 pts</span>
     </div>`;
     html += `<div>`;
