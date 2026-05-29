@@ -6,7 +6,7 @@
 <title>Star Chef 2026 — Formato de Evaluación</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&family=Barlow+Condensed:wght@700;900&family=Raleway:wght@600;700&display=swap" rel="stylesheet">
 <style>
   /* =============================================
      CONFIGURACIÓN GLOBAL — REEMPLAZA ESTOS IDs
@@ -114,10 +114,10 @@
 
   /* SECTION TITLE */
   .section-title {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Raleway', sans-serif;
     font-weight: 700;
-    font-size: 0.7rem;
-    letter-spacing: 2.5px;
+    font-size: 0.72rem;
+    letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--cj-red);
     margin-bottom: 1rem;
@@ -146,10 +146,10 @@
   }
   .instrucciones p {
     font-size: 0.88rem;
-    color: #444;
+    color: #111111;
     line-height: 1.6;
   }
-  .instrucciones strong { color: var(--cj-gold); }
+  .instrucciones strong { color: #111111; font-weight: 700; }
   .escala {
     display: flex;
     justify-content: space-between;
@@ -610,10 +610,7 @@
       return;
     }
     const sum = vals.reduce((a, b) => a + b, 0);
-    let color = "#c43009";
-    if (sum >= 50) color = "#1a8a3c";
-    else if (sum >= 30) color = "var(--cj-gold)";
-    totalEl.innerHTML = `<span style="color:${color};font-size:3rem;">${sum}</span><span> / 70 pts</span>`;
+    totalEl.innerHTML = `<span style="font-size:3rem;">${sum}</span><span> / 70 pts</span>`;
   }
 
   // =============================================
