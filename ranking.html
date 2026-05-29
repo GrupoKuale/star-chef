@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Star Chef 2026 — Ranking en Vivo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cj-red: #e8380d;
+    --cj-gold: #f5c518;
+    --cj-black: #0d0d0d;
+    --cj-dark: #1a1a1a;
+    --cj-surface: #222;
+    --cj-border: #2a2a2a;
+    --cj-text: #f0f0f0;
+    --cj-muted: #777;
+    --rank1: #f5c518;
+    --rank2: #b0b8c1;
+    --rank3: #cd7f32;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--cj-black);
+    color: var(--cj-text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: #111;
+    border-bottom: 3px solid var(--cj-red);
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .header-left h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    color: var(--cj-gold);
+    letter-spacing: 3px;
+    line-height: 1;
+  }
+  .header-left h1 span { color: white; }
+  .header-left p {
+    font-size: 0.72rem;
+    color: var(--cj-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+  .live-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(232,56,13,0.15);
+    border: 1px solid rgba(232,56,13,0.3);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--cj-red);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .live-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--cj-red);
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  /* MAIN */
+  .main { max-width: 800px; margin: 0 auto; padding: 1.5rem 1rem; }
+
+  /* STATS ROW */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+  .stat-card {
+    background: var(--cj-dark);
+    border: 1px solid var(--cj-border);
+    border-radius: 8px;
+    padding: 0.9rem 1rem;
+    text-align: center;
+  }
+  .stat-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--cj-gold);
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--cj-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 4px;
+  }
+
+  /* FILTER BAR */
+  .filter-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter-bar select {
+    flex: 1;
+    min-width: 180px;
+    background: var(--cj-dark);
+    border: 1px solid var(--cj-border);
+    border-radius: 6px;
+    padding: 0.55rem 0.9rem;
+    color: var(--cj-text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.9rem;
+    -webkit-appearance: none;
+  }
+  .refresh-btn {
+    background: transparent;
+    border: 1px solid var(--cj-border);
+    border-radius: 6px;
+    padding: 0.55rem 1rem;
+    color: var(--cj-muted);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .refresh-btn:hover { border-color: var(--cj-gold); color: var(--cj-gold); }
+  .last-update {
+    font-size: 0.75rem;
+    color: var(--cj-muted);
+    width: 100%;
+    text-align: right;
+  }
+
+  /* RANKING LIST */
+  .rank-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .rank-item {
+    background: var(--cj-dark);
+    border: 1px solid var(--cj-border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    transition: border-color 0.2s;
+    animation: slideIn 0.3s ease;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .rank-item:hover { border-color: #444; }
+  .rank-item.gold   { border-color: var(--rank1); background: rgba(245,197,24,0.04); }
+  .rank-item.silver { border-color: var(--rank2); background: rgba(176,184,193,0.04); }
+  .rank-item.bronze { border-color: var(--rank3); background: rgba(205,127,50,0.04); }
+
+  .rank-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    text-align: center;
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+  .rank-item.gold .rank-num   { color: var(--rank1); }
+  .rank-item.silver .rank-num { color: var(--rank2); }
+  .rank-item.bronze .rank-num { color: var(--rank3); }
+  .rank-item:not(.gold):not(.silver):not(.bronze) .rank-num { color: var(--cj-muted); }
+
+  .rank-info { overflow: hidden; }
+  .rank-hamburguesa {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .rank-meta {
+    font-size: 0.8rem;
+    color: var(--cj-muted);
+    margin-top: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .rank-meta .sucursal-tag {
+    display: inline-block;
+    background: rgba(232,56,13,0.12);
+    color: #e87454;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-right: 6px;
+  }
+
+  .rank-score-block { text-align: right; }
+  .rank-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+  .rank-item.gold .rank-score   { color: var(--rank1); }
+  .rank-item.silver .rank-score { color: var(--rank2); }
+  .rank-item.bronze .rank-score { color: var(--rank3); }
+  .rank-item:not(.gold):not(.silver):not(.bronze) .rank-score { color: white; }
+  .rank-pts { font-size: 0.72rem; color: var(--cj-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+  /* BAR */
+  .rank-bar-wrap { grid-column: 1 / -1; margin-top: 2px; }
+  .rank-bar-bg {
+    height: 4px;
+    background: var(--cj-border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .rank-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.6s ease;
+  }
+  .rank-item.gold   .rank-bar-fill { background: var(--rank1); }
+  .rank-item.silver .rank-bar-fill { background: var(--rank2); }
+  .rank-item.bronze .rank-bar-fill { background: var(--rank3); }
+  .rank-item:not(.gold):not(.silver):not(.bronze) .rank-bar-fill { background: #555; }
+
+  /* MINI CRITERIOS */
+  .criterios-mini {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  .crit-pill {
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    color: var(--cj-muted);
+  }
+  .crit-pill strong { color: var(--cj-text); }
+
+  /* ESTADO VACÍO */
+  .empty-state {
+    text-align: center;
+    padding: 4rem 1rem;
+    color: var(--cj-muted);
+  }
+  .empty-state .big { font-size: 3rem; margin-bottom: 1rem; }
+  .empty-state p { font-size: 0.9rem; line-height: 1.6; }
+
+  /* LOADING */
+  .loading-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--cj-red);
+    z-index: 100;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .loading-bar.active { transform: scaleX(0.7); }
+  .loading-bar.done { transform: scaleX(1); opacity: 0; transition: transform 0.3s, opacity 0.3s 0.3s; }
+
+  /* RECOMENDACIÓN */
+  .rec-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .rec-badge.si { background: rgba(74,222,128,0.12); color: #4ade80; }
+  .rec-badge.no { background: rgba(232,56,13,0.12); color: #ff6b4a; }
+  .rec-badge.ajustes { background: rgba(245,197,24,0.12); color: var(--cj-gold); }
+
+  @media (max-width: 480px) {
+    .rank-item { grid-template-columns: 36px 1fr auto; gap: 0.75rem; padding: 0.9rem 1rem; }
+    .rank-num { font-size: 1.6rem; }
+    .rank-score { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="loading-bar" id="loading-bar"></div>
+
+<!-- ============================================
+     CONFIGURACIÓN — EDITAR ANTES DE PUBLICAR
+     ============================================ -->
+<script>
+  // ⚠️ REEMPLAZA CON TU GOOGLE SHEETS ID Y GID
+  // Para obtener los datos:
+  // 1. En Google Sheets > Archivo > Compartir > "Cualquiera con el enlace puede ver"
+  // 2. Del URL de tu Sheet copia el ID (entre /d/ y /edit)
+  // 3. El GID está al final del URL después de #gid=
+  // 4. Las respuestas de Google Forms van automáticamente a la hoja "Form Responses 1"
+
+  const SHEET_CONFIG = {
+    sheetId: "1WNJxkN3IGnqSgizG4A0QWIbe441wnNCd93wDpCwq45k",
+    gid: "1416549145",  // GID de la hoja de respuestas (generalmente 0 para la primera hoja)
+  };
+
+  // Columnas en el orden en que aparecen en el Sheet
+  // (Google Forms llena en el orden de las preguntas)
+  const COL = {
+    timestamp:    0,   // Columna A — timestamp automático
+    juez:         1,   // Columna B
+    sucursal:     2,   // Columna C
+    hamburguesa:  3,   // Columna D
+    sabor:        4,   // Columna E
+    presentacion: 5,   // Columna F
+    tamano:       6,   // Columna G
+    facilidad:    7,   // Columna H
+    costo:        8,   // Columna I
+    empaque:      9,   // Columna J
+    creatividad:  10,  // Columna K
+    recomienda:   11,  // Columna L
+    comentarios:  12,  // Columna M
+  };
+
+  // Intervalo de actualización automática (ms)
+  const AUTO_REFRESH_MS = 30000; // 30 segundos
+</script>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <h1><span>STAR</span> ☆ <span>CHEF</span> 2026</h1>
+    <p>Ranking en vivo · Carl's Jr. — Grupo Kuale</p>
+  </div>
+  <div class="live-badge">
+    <div class="live-dot"></div>
+    En vivo
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- STATS -->
+  <div class="stats-row" id="stats-row">
+    <div class="stat-card"><div class="stat-val" id="stat-total">—</div><div class="stat-label">Evaluaciones</div></div>
+    <div class="stat-card"><div class="stat-val" id="stat-participantes">—</div><div class="stat-label">Participantes</div></div>
+    <div class="stat-card"><div class="stat-val" id="stat-prom">—</div><div class="stat-label">Promedio líder</div></div>
+    <div class="stat-card"><div class="stat-val" id="stat-sucursales">—</div><div class="stat-label">Sucursales</div></div>
+  </div>
+
+  <!-- FILTROS -->
+  <div class="filter-bar">
+    <select id="filter-sucursal">
+      <option value="">Todas las sucursales</option>
+    </select>
+    <button class="refresh-btn" id="btn-refresh" onclick="fetchData()">↻ Actualizar</button>
+    <div class="last-update">Última actualización: <span id="last-update-time">—</span></div>
+  </div>
+
+  <!-- RANKING -->
+  <div class="rank-list" id="rank-list">
+    <div class="empty-state">
+      <div class="big">⏳</div>
+      <p>Cargando evaluaciones...</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let allData = [];
+  let autoRefreshTimer = null;
+
+  // =============================================
+  // FETCH DE GOOGLE SHEETS (CSV público)
+  // =============================================
+  async function fetchData() {
+    const bar = document.getElementById("loading-bar");
+    bar.className = "loading-bar active";
+
+    const btn = document.getElementById("btn-refresh");
+    btn.textContent = "↻ Cargando...";
+    btn.disabled = true;
+
+    try {
+      // Google Sheets publica como CSV si está compartido
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_CONFIG.sheetId}/export?format=csv&gid=${SHEET_CONFIG.gid}&cachebust=${Date.now()}`;
+
+      // Modo demo si no está configurado
+      if (SHEET_CONFIG.sheetId === "TU_SHEET_ID_AQUI") {
+        allData = getDemoData();
+      } else {
+        const resp = await fetch(url);
+        if (!resp.ok) throw new Error("No se pudo cargar");
+        const csv = await resp.text();
+        allData = parseCSV(csv);
+      }
+
+      renderRanking();
+      document.getElementById("last-update-time").textContent = new Date().toLocaleTimeString("es-MX");
+      bar.className = "loading-bar done";
+      setTimeout(() => bar.className = "loading-bar", 700);
+
+    } catch (err) {
+      console.error(err);
+      document.getElementById("rank-list").innerHTML = `
+        <div class="empty-state">
+          <div class="big">⚠️</div>
+          <p>Error al cargar datos.<br>Verifica que el Sheet es público y el ID es correcto.</p>
+        </div>`;
+      bar.className = "loading-bar";
+    }
+
+    btn.textContent = "↻ Actualizar";
+    btn.disabled = false;
+  }
+
+  function parseCSV(text) {
+    const lines = text.trim().split("\n");
+    // Saltar header (fila 1) y procesar
+    return lines.slice(1).map(line => {
+      // CSV básico — para comas dentro de campos quoted
+      const cols = [];
+      let cur = "", inQ = false;
+      for (const ch of line) {
+        if (ch === '"') inQ = !inQ;
+        else if (ch === ',' && !inQ) { cols.push(cur); cur = ""; }
+        else cur += ch;
+      }
+      cols.push(cur);
+      return cols;
+    }).filter(r => r.length > 4 && r[COL.hamburguesa]);
+  }
+
+  // =============================================
+  // PROCESAR Y RENDERIZAR RANKING
+  // =============================================
+  function processData(rows) {
+    // Agrupar por hamburguesa+sucursal, promediar calificaciones
+    const map = {};
+
+    rows.forEach(r => {
+      const hamburguesa = (r[COL.hamburguesa] || "").trim();
+      const sucursal = (r[COL.sucursal] || "").trim();
+      if (!hamburguesa) return;
+
+      const key = `${hamburguesa}__${sucursal}`;
+      const scores = {
+        sabor:        parseFloat(r[COL.sabor]) || 0,
+        presentacion: parseFloat(r[COL.presentacion]) || 0,
+        tamano:       parseFloat(r[COL.tamano]) || 0,
+        facilidad:    parseFloat(r[COL.facilidad]) || 0,
+        costo:        parseFloat(r[COL.costo]) || 0,
+        empaque:      parseFloat(r[COL.empaque]) || 0,
+        creatividad:  parseFloat(r[COL.creatividad]) || 0,
+      };
+      const total = Object.values(scores).reduce((a, b) => a + b, 0);
+
+      if (!map[key]) {
+        map[key] = {
+          hamburguesa, sucursal,
+          evaluaciones: [],
+          recomiendas: { si: 0, no: 0, ajustes: 0 },
+          jueces: new Set(),
+        };
+      }
+
+      map[key].evaluaciones.push({ scores, total });
+      map[key].jueces.add((r[COL.juez] || "").trim());
+      const rec = (r[COL.recomienda] || "").toLowerCase();
+      if (rec.includes("sí") || rec.includes("si")) map[key].recomiendas.si++;
+      else if (rec.includes("no")) map[key].recomiendas.no++;
+      else if (rec.includes("ajuste")) map[key].recomiendas.ajustes++;
+    });
+
+    return Object.values(map).map(item => {
+      const evals = item.evaluaciones;
+      const numEvals = evals.length;
+      const avgTotal = evals.reduce((a, b) => a + b.total, 0) / numEvals;
+
+      const avgScores = {};
+      ["sabor","presentacion","tamano","facilidad","costo","empaque","creatividad"].forEach(k => {
+        avgScores[k] = evals.reduce((a, b) => a + b.scores[k], 0) / numEvals;
+      });
+
+      return {
+        ...item,
+        numEvals,
+        avgTotal: Math.round(avgTotal * 10) / 10,
+        avgScores,
+      };
+    }).sort((a, b) => b.avgTotal - a.avgTotal);
+  }
+
+  function renderRanking() {
+    const sucursalFilter = document.getElementById("filter-sucursal").value;
+    let filtered = allData;
+    if (sucursalFilter) filtered = allData.filter(r => (r[COL.sucursal] || "").trim() === sucursalFilter);
+
+    const items = processData(filtered);
+    const maxScore = items.length > 0 ? items[0].avgTotal : 70;
+
+    // Stats
+    const allSucursales = [...new Set(allData.map(r => (r[COL.sucursal] || "").trim()).filter(Boolean))];
+    document.getElementById("stat-total").textContent = allData.length;
+    document.getElementById("stat-participantes").textContent = items.length;
+    document.getElementById("stat-prom").textContent = items.length > 0 ? items[0].avgTotal : "—";
+    document.getElementById("stat-sucursales").textContent = allSucursales.length;
+
+    // Poblar filtro de sucursales
+    const sel = document.getElementById("filter-sucursal");
+    const current = sel.value;
+    while (sel.options.length > 1) sel.remove(1);
+    allSucursales.forEach(s => {
+      const opt = document.createElement("option");
+      opt.value = s;
+      opt.textContent = s;
+      sel.appendChild(opt);
+    });
+    sel.value = current;
+
+    const list = document.getElementById("rank-list");
+    if (items.length === 0) {
+      list.innerHTML = `
+        <div class="empty-state">
+          <div class="big">🍔</div>
+          <p>Aún no hay evaluaciones.<br>Las calificaciones aparecerán aquí en tiempo real.</p>
+        </div>`;
+      return;
+    }
+
+    list.innerHTML = "";
+    items.forEach((item, idx) => {
+      const pos = idx + 1;
+      const cls = pos === 1 ? "gold" : pos === 2 ? "silver" : pos === 3 ? "bronze" : "";
+      const pct = Math.round((item.avgTotal / 70) * 100);
+      const medal = pos === 1 ? "🥇" : pos === 2 ? "🥈" : pos === 3 ? "🥉" : "";
+
+      const recDominant = Object.entries(item.recomiendas).sort((a,b) => b[1]-a[1])[0];
+      let recBadge = "";
+      if (item.numEvals > 0) {
+        const recMap = { si: { cls: "si", label: "✓ Sí" }, no: { cls: "no", label: "✗ No" }, ajustes: { cls: "ajustes", label: "⚙ Ajustes" } };
+        if (recDominant[1] > 0) {
+          const rm = recMap[recDominant[0]];
+          recBadge = `<span class="rec-badge ${rm.cls}">${rm.label}</span>`;
+        }
+      }
+
+      const critLabels = {
+        sabor: "Sabor", presentacion: "Visual", tamano: "Porción",
+        facilidad: "Elaboración", costo: "Costo", empaque: "Empaque", creatividad: "Creatividad"
+      };
+      const critPills = Object.entries(item.avgScores)
+        .map(([k, v]) => `<span class="crit-pill">${critLabels[k]} <strong>${Math.round(v*10)/10}</strong></span>`)
+        .join("");
+
+      const juecesList = [...item.jueces].slice(0, 3).join(", ");
+      const moreJueces = item.jueces.size > 3 ? ` +${item.jueces.size - 3}` : "";
+
+      const div = document.createElement("div");
+      div.className = `rank-item ${cls}`;
+      div.innerHTML = `
+        <div class="rank-num">${medal || pos}</div>
+        <div class="rank-info">
+          <div class="rank-hamburguesa">${escHtml(item.hamburguesa)} ${recBadge}</div>
+          <div class="rank-meta">
+            <span class="sucursal-tag">${escHtml(item.sucursal)}</span>
+            ${item.numEvals} eval${item.numEvals !== 1 ? "s" : ""} · Jueces: ${escHtml(juecesList)}${moreJueces}
+          </div>
+        </div>
+        <div class="rank-score-block">
+          <div class="rank-score">${item.avgTotal}</div>
+          <div class="rank-pts">/ 70 pts</div>
+        </div>
+        <div class="rank-bar-wrap">
+          <div class="rank-bar-bg">
+            <div class="rank-bar-fill" style="width:${pct}%"></div>
+          </div>
+        </div>
+        <div class="criterios-mini">${critPills}</div>
+      `;
+      list.appendChild(div);
+    });
+  }
+
+  function escHtml(str) {
+    return (str || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+
+  // =============================================
+  // DEMO DATA (cuando no hay Sheet configurado)
+  // =============================================
+  function getDemoData() {
+    const sucursales = ["Carl's Jr. Tampico Centro", "Carl's Jr. Cd. Victoria", "Carl's Jr. Altamira"];
+    const hamburguesaS = ["La Bravísima", "Doble Fuego", "La Estrella Picante", "BBQ Monster", "El Clásico Kuale"];
+    const jueces = ["Ana Ramírez", "Pedro Torres", "Sofia Luna", "Carlos Ríos"];
+    const rows = [];
+    hamburguesaS.forEach((h, i) => {
+      const n = Math.floor(Math.random() * 3) + 1;
+      for (let j = 0; j < n; j++) {
+        rows.push([
+          new Date().toISOString(),
+          jueces[j % jueces.length],
+          sucursales[i % sucursales.length],
+          h,
+          Math.floor(Math.random() * 4) + 6,
+          Math.floor(Math.random() * 4) + 5,
+          Math.floor(Math.random() * 4) + 5,
+          Math.floor(Math.random() * 4) + 6,
+          Math.floor(Math.random() * 4) + 5,
+          Math.floor(Math.random() * 4) + 6,
+          Math.floor(Math.random() * 4) + 5,
+          "Sí",
+          "Excelente propuesta"
+        ]);
+      }
+    });
+    return rows;
+  }
+
+  // AUTO-REFRESH
+  function startAutoRefresh() {
+    if (autoRefreshTimer) clearInterval(autoRefreshTimer);
+    autoRefreshTimer = setInterval(fetchData, AUTO_REFRESH_MS);
+  }
+
+  document.getElementById("filter-sucursal").addEventListener("change", renderRanking);
+
+  // INICIO
+  fetchData();
+  startAutoRefresh();
+</script>
+
+</body>
+</html>
