@@ -27,6 +27,7 @@
   :root {
     --cj-red: #e8380d;
     --cj-gold: #f5c518;
+    --cj-gold-text: #a07800;
     --cj-black: #ffffff;
     --cj-dark: #f5f5f5;
     --cj-surface: #ebebeb;
@@ -49,6 +50,7 @@
   .header {
     width: 100%;
     line-height: 0;
+    background: #111111;
     border-bottom: 3px solid var(--cj-red);
   }
   .header-img {
@@ -224,7 +226,7 @@
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.4rem;
     letter-spacing: 1px;
-    color: var(--cj-gold);
+    color: var(--cj-gold-text);
     min-width: 44px;
     text-align: center;
   }
@@ -346,7 +348,7 @@
   .success-screen h2 {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 2.5rem;
-    color: var(--cj-gold);
+    color: var(--cj-gold-text);
     letter-spacing: 3px;
   }
   .success-screen p { color: var(--cj-muted); margin-top: 0.5rem; }
@@ -597,7 +599,7 @@
     valEl.classList.remove("empty");
     // Color dinámico
     if (val <= 3) valEl.style.color = "#c43009";
-    else if (val <= 7) valEl.style.color = "var(--cj-gold)";
+    else if (val <= 7) valEl.style.color = "#a07800";
     else valEl.style.color = "#1a8a3c";
     updateTotal();
   }

@@ -6,11 +6,12 @@
 <title>Star Chef 2026 — Ranking en Vivo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@700;900&family=Raleway:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --cj-red: #e8380d;
     --cj-gold: #f5c518;
+    --cj-gold-text: #a07800;
     --cj-black: #ffffff;
     --cj-dark: #f5f5f5;
     --cj-surface: #ebebeb;
@@ -32,7 +33,7 @@
 
   /* HEADER */
   .header {
-    background: var(--cj-black);
+    background: #111111;
     border-bottom: 3px solid var(--cj-red);
     padding: 1.2rem 1.5rem;
     display: flex;
@@ -51,7 +52,7 @@
   .header-left h1 span { color: var(--cj-red); }
   .header-left p {
     font-size: 0.72rem;
-    color: var(--cj-muted);
+    color: #aaaaaa;
     letter-spacing: 2px;
     text-transform: uppercase;
     margin-top: 3px;
@@ -101,12 +102,14 @@
   .stat-val {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 2rem;
-    color: var(--cj-gold);
+    color: var(--cj-gold-text);
     letter-spacing: 1px;
     line-height: 1;
   }
   .stat-label {
-    font-size: 0.72rem;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
     color: var(--cj-muted);
     text-transform: uppercase;
     letter-spacing: 1.5px;
@@ -187,9 +190,9 @@
     letter-spacing: 1px;
     line-height: 1;
   }
-  .rank-item.gold .rank-num   { color: var(--rank1); }
-  .rank-item.silver .rank-num { color: var(--rank2); }
-  .rank-item.bronze .rank-num { color: var(--rank3); }
+  .rank-item.gold .rank-num   { color: var(--cj-gold-text); }
+  .rank-item.silver .rank-num { color: #6e7880; }
+  .rank-item.bronze .rank-num { color: #8a5010; }
   .rank-item:not(.gold):not(.silver):not(.bronze) .rank-num { color: var(--cj-muted); }
 
   .rank-info { overflow: hidden; }
@@ -228,9 +231,9 @@
     letter-spacing: 1px;
     line-height: 1;
   }
-  .rank-item.gold .rank-score   { color: var(--rank1); }
-  .rank-item.silver .rank-score { color: var(--rank2); }
-  .rank-item.bronze .rank-score { color: var(--rank3); }
+  .rank-item.gold .rank-score   { color: var(--cj-gold-text); }
+  .rank-item.silver .rank-score { color: #6e7880; }
+  .rank-item.bronze .rank-score { color: #8a5010; }
   .rank-item:not(.gold):not(.silver):not(.bronze) .rank-score { color: var(--cj-text); }
   .rank-pts { font-size: 0.72rem; color: var(--cj-muted); text-transform: uppercase; letter-spacing: 1px; }
 
