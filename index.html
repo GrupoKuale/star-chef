@@ -47,63 +47,13 @@
 
   /* HEADER */
   .header {
-    background: var(--cj-black);
+    width: 100%;
+    line-height: 0;
     border-bottom: 3px solid var(--cj-red);
-    padding: 1.5rem 1.5rem 1rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
   }
-  .header::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: repeating-linear-gradient(
-      -45deg,
-      transparent,
-      transparent 10px,
-      rgba(232,56,13,0.06) 10px,
-      rgba(232,56,13,0.06) 20px
-    );
-  }
-  .header-inner { position: relative; z-index: 1; }
-  .brand-badge {
-    display: inline-block;
-    background: var(--cj-red);
-    color: white;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 900;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 3px 12px;
-    border-radius: 2px;
-    margin-bottom: 0.5rem;
-  }
-  .header h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2.8rem, 10vw, 5rem);
-    color: var(--cj-gold);
-    letter-spacing: 4px;
-    line-height: 0.9;
-    text-shadow: 3px 3px 0 rgba(232,56,13,0.4);
-  }
-  .header h1 span { color: var(--cj-red); }
-  .header-subtitle {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 0.85rem;
-    letter-spacing: 3px;
-    color: var(--cj-muted);
-    text-transform: uppercase;
-    margin-top: 0.4rem;
-  }
-  .star-deco {
-    display: inline-block;
-    color: var(--cj-gold);
-    font-size: 1.1rem;
-    margin: 0 8px;
-    vertical-align: middle;
+  .header-img {
+    width: 100%;
+    display: block;
   }
 
   /* FORM CONTAINER */
@@ -469,15 +419,7 @@
 
 <!-- HEADER -->
 <header class="header">
-  <div class="header-inner">
-    <div class="brand-badge">Carl's Jr. — Grupo Kuale</div>
-    <h1><span>STAR</span> ☆ <span>CHEF</span> <br>2026</h1>
-    <div class="header-subtitle">
-      <span class="star-deco">★</span>
-      Formato de Evaluación del Jurado
-      <span class="star-deco">★</span>
-    </div>
-  </div>
+  <img src="header starchef.jpeg" alt="Star Chef 2026 — Formato de Evaluación del Jurado" class="header-img">
 </header>
 
 <div class="form-wrap">
